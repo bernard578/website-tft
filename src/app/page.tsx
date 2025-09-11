@@ -1,103 +1,54 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <section className="grid grid-cols-1 gap-6 py-12 md:grid-cols-[1.2fr,1fr]">
+      {/* Left: hero text */}
+      <div>
+        <h1 className="mb-3 text-4xl font-extrabold leading-tight md:text-5xl">
+          Climb Faster in TFT
+        </h1>
+        <p className="mb-5 max-w-prose text-slate-300">
+          Curated comps, patch highlights, and handy tools to help you win more
+          lobbies. Built by and for Teamfight Tactics players.
+        </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="mb-4 flex flex-wrap gap-3">
+          <Link
+            href="/tools"
+            className="inline-block rounded-xl border border-[#232a3a] px-4 py-2 text-white"
+            style={{ background: "linear-gradient(180deg, #6aa2ff, #4c86f3)" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Open Tools
+          </Link>
+
+          <Link
+            href="/blog"
+            className="inline-block rounded-xl border border-[#232a3a] bg-[#121622] px-4 py-2 text-white transition active:translate-y-px hover:bg-[#1a2236] hover:border-[#2a3550]"
           >
-            Read our docs
-          </a>
+            Read the Blog
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <ul className="mt-4 grid max-w-xl gap-2 text-slate-200">
+          <li>📈 Weekly meta snapshots</li>
+          <li>🧮 Item & shop-odds helpers</li>
+          <li>🗺️ Positioning checklists</li>
+        </ul>
+      </div>
+
+      {/* Right: spotlight card */}
+      <aside className="rounded-2xl border border-[#232a3a] bg-gradient-to-b from-[#121622] to-[#171b2a] p-5 shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
+        <h3 className="mb-1 text-xl font-semibold">Patch Spotlight</h3>
+        <p className="mb-2 text-sm text-slate-400">
+          Example content — replace with live data later.
+        </p>
+        <ul className="list-disc pl-5 text-sm leading-6">
+          <li><b>Bruiser/Challenger</b> comp up after AP nerfs.</li>
+          <li>Early econ stronger — consider 2-streak starts.</li>
+          <li>T3 carry re-rolls viable with strong augments.</li>
+        </ul>
+      </aside>
+    </section>
   );
 }
