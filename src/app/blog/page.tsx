@@ -1,39 +1,57 @@
+// src/app/blog/page.tsx
 import Link from "next/link";
+import { posts } from "./posts";
 
-export default function ToolsPage() {
+export const metadata = {
+  title: "Blog | TFT Insights",
+  description: "All TFT blog posts.",
+};
+
+export default function BlogIndexPage() {
+  const sorted = [...posts].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
   return (
-    <section className="space-y-4 py-10">
-      <h1 className="text-3xl font-bold">Tools</h1>
-      <p className="text-slate-400">A growing set of helpers for your next climb.</p>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="rounded-2xl border border-[#232a3a] bg-gradient-to-b from-[#121622] to-[#171b2a] p-5 shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
-          <h3 className="text-lg font-semibold text-white">Item Builder</h3>
-          <p className="mt-1 text-slate-300">Plan best-in-slot items from your components.</p>
-          <button className="mt-3 rounded-xl border border-[#232a3a] bg-[#121622] px-4 py-2 text-white transition active:translate-y-px hover:bg-[#1a2236] hover:border-[#2a3550]">
-            Open
-          </button>
-        </div>
-
-        <div className="rounded-2xl border border-[#232a3a] bg-gradient-to-b from-[#121622] to-[#171b2a] p-5 shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
-          <h3 className="text-lg font-semibold text-white">Shop Odds</h3>
-          <p className="mt-1 text-slate-300">Level-by-level chance of hitting your units.</p>
-          <button className="mt-3 rounded-xl border border-[#232a3a] bg-[#121622] px-4 py-2 text-white transition active:translate-y-px hover:bg-[#1a2236] hover:border-[#2a3550]">
-            Open
-          </button>
-        </div>
-
-        <div className="rounded-2xl border border-[#232a3a] bg-gradient-to-b from-[#121622] to-[#171b2a] p-5 shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
-          <h3 className="text-lg font-semibold text-white">Meta Snapshot</h3>
-          <p className="mt-1 text-slate-300">Quick view of currently strong comps.</p>
-          <Link
-            className="mt-3 inline-block rounded-xl border border-[#232a3a] bg-[#121622] px-4 py-2 text-white transition active:translate-y-px hover:bg-[#1a2236] hover:border-[#2a3550]"
-            href="/blog"
+    <main className="mx-auto max-w-3xl p-6">
+      <h1 className="text-4xl font-bold mb-6">Blog</h1>
+      <ul className="space-y-6">
+        {sorted.map((post) => (
+          <li
+            key={post.slug}
+            className="rounded border border-gray-200 p-4 hover:shadow-sm transition"
           >
-            See Latest
-          </Link>
-        </div>
-      </div>
-    </section>
+            <Link
+              href={`/blog/${post.slug}`}
+              className="block focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <h2 className="text-2xl font-semibold">{post.title}</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                {new Date(post.date).toLocaleDateString()}
+                {post.tags?.length ? (
+                  <>
+                    {" · "}
+                    <span className="space-x-1">
+                      {post.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="inline-block rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-700"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </span>
+                  </>
+                ) : null}
+              </p>
+              <p className="mt-3 text-gray-700">{post.description}</p>
+              <span className="mt-3 inline-block text-blue-600">
+                Read more →
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </main>
   );
 }
