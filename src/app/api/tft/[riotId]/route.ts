@@ -11,7 +11,13 @@ import {
 
 export const dynamic = "force-dynamic";
 
-type Ctx = { params: Promise<{ riotId: string }> }; // 👈 params is a Promise
+type Ctx = { params: Promise<{ riotId: string }> };
+
+interface RiotAPIError extends Error {
+  status?: number;
+  details?: any;
+  response?: Response;
+}
 
 export async function GET(_req: Request, ctx: Ctx) {
   if (!process.env.RIOT_API_KEY) {
@@ -19,9 +25,9 @@ export async function GET(_req: Request, ctx: Ctx) {
   }
 
   try {
-    // 👇 must await params
     const { riotId } = await ctx.params;
     const { gameName, tagLine } = normalizeRiotId(riotId ?? "");
+
     if (!gameName || !tagLine) {
       return NextResponse.json(
         { error: 'Use Riot ID format "name#tagLine" (e.g., name#EUNE)' },
@@ -33,8 +39,9 @@ export async function GET(_req: Request, ctx: Ctx) {
     const puuid = acc.puuid;
     const summoner = await getSummonerByPuuid(puuid);
 
-    let league: any[] = [];
+    let league: unknown[] = [];
     let leagueEndpoint: "by-puuid" | "entries-by-summoner" = "by-puuid";
+
     try {
       league = await getLeagueByPuuid(puuid);
     } catch {
@@ -51,11 +58,18 @@ export async function GET(_req: Request, ctx: Ctx) {
       league,
       leagueEndpoint,
     });
-  } catch (err: any) {
-    const status = err?.status ?? 500;
-    const details = err?.details ?? (await (err?.response ? readBody(err.response) : Promise.resolve(null)));
+  } catch (err) {
+    const error = err as RiotAPIError;
+
+    const status = error.status ?? 500;
+    const details = error.response ? await readBody(error.response) : error.details ?? null;
+
     return NextResponse.json(
-      { error: err?.message ?? "Server error", status, details },
+      {
+        error: error.message ?? "Server error",
+        status,
+        details,
+      },
       { status }
     );
   }
