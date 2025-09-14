@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <section className="grid grid-cols-1 gap-6 py-12 md:grid-cols-[1.2fr,1fr]">
+    <section className="grid grid-cols-1 gap-6 py-12 md:grid-cols-[1.2fr,1fr] px-6 md:px-12">
       {/* Left: hero text */}
       <div>
         <h1 className="mb-3 text-4xl font-extrabold leading-tight md:text-5xl">
@@ -17,7 +17,9 @@ export default function HomePage() {
           <Link
             href="/tools"
             className="inline-block rounded-xl border border-[#232a3a] px-4 py-2 text-white"
-            style={{ background: "linear-gradient(180deg, #6aa2ff, #4c86f3)" }}
+            style={{
+              background: "linear-gradient(180deg, #6aa2ff, #4c86f3)",
+            }}
           >
             Open Tools
           </Link>
@@ -27,6 +29,13 @@ export default function HomePage() {
             className="inline-block rounded-xl border border-[#232a3a] bg-[#121622] px-4 py-2 text-white transition active:translate-y-px hover:bg-[#1a2236] hover:border-[#2a3550]"
           >
             Read the Blog
+          </Link>
+
+          <Link
+            href="/search"
+            className="inline-block rounded-xl border border-[#232a3a] bg-[#1b2336] px-4 py-2 text-white transition active:translate-y-px hover:bg-[#232e4a] hover:border-[#334266]"
+          >
+            Search Players
           </Link>
         </div>
 
@@ -44,7 +53,9 @@ export default function HomePage() {
           Example content — replace with live data later.
         </p>
         <ul className="list-disc pl-5 text-sm leading-6">
-          <li><b>Bruiser/Challenger</b> comp up after AP nerfs.</li>
+          <li>
+            <b>Bruiser/Challenger</b> comp up after AP nerfs.
+          </li>
           <li>Early econ stronger — consider 2-streak starts.</li>
           <li>T3 carry re-rolls viable with strong augments.</li>
         </ul>
