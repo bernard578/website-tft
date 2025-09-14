@@ -15,8 +15,8 @@ type Ctx = { params: Promise<{ riotId: string }> };
 
 interface RiotAPIError extends Error {
   status?: number;
-  details?: any;
   response?: Response;
+  details?: unknown;
 }
 
 export async function GET(_req: Request, ctx: Ctx) {
@@ -60,9 +60,18 @@ export async function GET(_req: Request, ctx: Ctx) {
     });
   } catch (err) {
     const error = err as RiotAPIError;
-
     const status = error.status ?? 500;
-    const details = error.response ? await readBody(error.response) : error.details ?? null;
+
+    let details: unknown = null;
+    if (error.response) {
+      try {
+        details = await readBody(error.response); // assumes `readBody` returns unknown or safe JSON
+      } catch (e) {
+        details = { parseError: "Failed to parse response body" };
+      }
+    } else if (error.details) {
+      details = error.details;
+    }
 
     return NextResponse.json(
       {
